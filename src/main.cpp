@@ -15,7 +15,7 @@ const int TOUCH_TIME_OUT = 500;
 
 const int CAPACITIVE_SENSOR_THRESHOLD = 100;
 const int TAP_SENSOR_THRESHOLD = 8;
-const long LIGHT_SENSOR_THRESHOLD = 65;
+const long LIGHT_SENSOR_THRESHOLD = 70;
 const long DOUBLE_TAP_MAX_INTERVAL = 500;
 
 CapacitiveSensor cs = CapacitiveSensor(CAPACITIVE_SENSOR_SOURCE_PIN, CAPACITIVE_SENSOR_SINK_PIN);
@@ -69,7 +69,7 @@ void loop() {
   }
 
   // detect touch and turn on/off
-  if (capacitiveSensorValue > CAPACITIVE_SENSOR_THRESHOLD && (currentTime - lastTouchTime) > TOUCH_TIME_OUT) {
+  if (capacitiveSensorValue > (capacitiveSensorBaseValue + CAPACITIVE_SENSOR_THRESHOLD) && (currentTime - lastTouchTime) > TOUCH_TIME_OUT) {
     Serial.println("Capacitive Sensor Value: " + String(capacitiveSensorValue));
     toggleState();
     lastTouchTime = currentTime;
@@ -194,6 +194,9 @@ void sensorsCalibration() {
     Serial.println("Calibrating sensors..." + String(currentTime));
     if (tapSensorBaseValue < tapSensorValue) {
       tapSensorBaseValue = tapSensorValue;
+    }
+    if (capacitiveSensorBaseValue < capacitiveSensorValue) {
+      capacitiveSensorBaseValue = capacitiveSensorValue;
     }
   } else {
     calibrated = true;
