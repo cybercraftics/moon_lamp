@@ -9,13 +9,13 @@
 #define PIEZO_PIN A1
 #define LIGHT_SENSOR_PIN A2
 
-const int MAX_BRIGHTNESS = 80;
+const int MAX_BRIGHTNESS = 150;
 const String COLORS[] = {"red", "green", "blue", "yellow", "cyan", "magenta", "white"};
 const int TOUCH_TIME_OUT = 500;
 
-const int CAPACITIVE_SENSOR_THRESHOLD = 100;
-const int TAP_SENSOR_THRESHOLD = 8;
-const long LIGHT_SENSOR_THRESHOLD = 70;
+const int CAPACITIVE_SENSOR_THRESHOLD = 60;
+const int TAP_SENSOR_THRESHOLD = 4;
+const int LIGHT_SENSOR_THRESHOLD = 700;
 const long DOUBLE_TAP_MAX_INTERVAL = 500;
 
 CapacitiveSensor cs = CapacitiveSensor(CAPACITIVE_SENSOR_SOURCE_PIN, CAPACITIVE_SENSOR_SINK_PIN);
@@ -44,9 +44,8 @@ void turnOff();
 void changeColor(String color);
 void onSingleTap();
 void onDoubleTap();
-void onTouch();
-void onDarkness();
 void signalizeAutoMode();
+int determineOptimalBrightness();
 
 void setup() {
   Serial.begin(9600);
@@ -68,9 +67,7 @@ void loop() {
     return;
   }
 
-  // detect touch and turn on/off
   if (capacitiveSensorValue > (capacitiveSensorBaseValue + CAPACITIVE_SENSOR_THRESHOLD) && (currentTime - lastTouchTime) > TOUCH_TIME_OUT) {
-    Serial.println("Capacitive Sensor Value: " + String(capacitiveSensorValue));
     toggleState();
     lastTouchTime = currentTime;
   }
@@ -93,7 +90,7 @@ void loop() {
     }
 
     // Debounce delay to prevent multiple readings from a single tap
-    delay(150);
+    delay(200);
   }
 
   // If no second tap is detected within the threshold, consider it a single tap
@@ -104,24 +101,28 @@ void loop() {
   }
 
   // detect darkness and turn on if auto mode is enabled
-  if (lightSensorValue < LIGHT_SENSOR_THRESHOLD && autoMode == 1) {
+  if (lightSensorValue < LIGHT_SENSOR_THRESHOLD && autoMode == 1 && state == 0) {
     turnOn();
-  } else if (lightSensorValue > LIGHT_SENSOR_THRESHOLD && autoMode == 1) {
+  } else if (lightSensorValue > LIGHT_SENSOR_THRESHOLD && autoMode == 1 && state == 1) {
     turnOff();
   }
-
+  
   delay(100);
 }
 
 void turnOn() {
   state = 1;
-  analogWrite(LED_CHANNEL_RED, MAX_BRIGHTNESS);
-  analogWrite(LED_CHANNEL_GREEN, MAX_BRIGHTNESS);
-  analogWrite(LED_CHANNEL_BLUE, MAX_BRIGHTNESS);
+  int brightness = determineOptimalBrightness();
+  Serial.println("Brightness: " + String(brightness) + " Light Sensor Value: " + String(lightSensorValue));
+
+  analogWrite(LED_CHANNEL_RED, brightness);
+  analogWrite(LED_CHANNEL_GREEN, brightness);
+  analogWrite(LED_CHANNEL_BLUE, brightness);
 }
 
 void turnOff() {
   state = 0;
+
   analogWrite(LED_CHANNEL_RED, 0);
   analogWrite(LED_CHANNEL_GREEN, 0);
   analogWrite(LED_CHANNEL_BLUE, 0);
@@ -136,34 +137,36 @@ void toggleState() {
 }
 
 void changeColor(String color) {
+  int brightness = determineOptimalBrightness();
+
   if (color == "red") {
-    analogWrite(LED_CHANNEL_RED, MAX_BRIGHTNESS);
+    analogWrite(LED_CHANNEL_RED, brightness);
     analogWrite(LED_CHANNEL_GREEN, 0);
     analogWrite(LED_CHANNEL_BLUE, 0);
   } else if (color == "green") {
     analogWrite(LED_CHANNEL_RED, 0);
-    analogWrite(LED_CHANNEL_GREEN, MAX_BRIGHTNESS);
+    analogWrite(LED_CHANNEL_GREEN, brightness);
     analogWrite(LED_CHANNEL_BLUE, 0);
   } else if (color == "blue") {
     analogWrite(LED_CHANNEL_RED, 0);
     analogWrite(LED_CHANNEL_GREEN, 0);
-    analogWrite(LED_CHANNEL_BLUE, MAX_BRIGHTNESS);
+    analogWrite(LED_CHANNEL_BLUE, brightness);
   } else if (color == "yellow") {
-    analogWrite(LED_CHANNEL_RED, MAX_BRIGHTNESS);
-    analogWrite(LED_CHANNEL_GREEN, MAX_BRIGHTNESS);
+    analogWrite(LED_CHANNEL_RED, brightness);
+    analogWrite(LED_CHANNEL_GREEN, brightness);
     analogWrite(LED_CHANNEL_BLUE, 0);
   } else if (color == "cyan") {
     analogWrite(LED_CHANNEL_RED, 0);
-    analogWrite(LED_CHANNEL_GREEN, MAX_BRIGHTNESS);
-    analogWrite(LED_CHANNEL_BLUE, MAX_BRIGHTNESS);
+    analogWrite(LED_CHANNEL_GREEN, brightness);
+    analogWrite(LED_CHANNEL_BLUE, brightness);
   } else if (color == "magenta") {
-    analogWrite(LED_CHANNEL_RED, MAX_BRIGHTNESS);
+    analogWrite(LED_CHANNEL_RED, brightness);
     analogWrite(LED_CHANNEL_GREEN, 0);
-    analogWrite(LED_CHANNEL_BLUE, MAX_BRIGHTNESS);
+    analogWrite(LED_CHANNEL_BLUE, brightness);
   } else if (color == "white") {
-    analogWrite(LED_CHANNEL_RED, MAX_BRIGHTNESS);
-    analogWrite(LED_CHANNEL_GREEN, MAX_BRIGHTNESS);
-    analogWrite(LED_CHANNEL_BLUE, MAX_BRIGHTNESS);
+    analogWrite(LED_CHANNEL_RED, brightness);
+    analogWrite(LED_CHANNEL_GREEN, brightness);
+    analogWrite(LED_CHANNEL_BLUE, brightness);
   }
 
   Serial.println("Color: " + color);
@@ -200,5 +203,20 @@ void sensorsCalibration() {
     }
   } else {
     calibrated = true;
+  }
+}
+
+int determineOptimalBrightness() {
+  switch (lightSensorValue)
+  {
+  case 0 ... 590:
+    return MAX_BRIGHTNESS - 100;
+    break;
+  case 591 ... 750:
+    return MAX_BRIGHTNESS - 50;
+    break;
+  default:
+    return MAX_BRIGHTNESS;
+    break;
   }
 }
