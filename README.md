@@ -2,7 +2,7 @@
 
 ![image](https://github.com/user-attachments/assets/a6566f0b-c8de-40ef-a19c-b32d529d018d)
 
-This is the homepage of the Moon Lamp project, as presented by myself in this [YouTube video]().
+This is the homepage of the Moon Lamp project, as presented by myself in this [YouTube video](https://youtu.be/xZy_1CMyAzQ).
 
 ### Project Contents:
 - [**3D Printable Materials**](https://github.com/cybercraftics/moon_lamp/tree/main/3d_printables)
