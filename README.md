@@ -15,3 +15,32 @@ This is the homepage of the Moon Lamp project, as presented by myself in this [Y
 This project is a PlatformIO compatible and can be directly imported into any IDE with PlatformIO installed, such as Visual Studio Code.
 Alternatively, the [code](https://github.com/cybercraftics/moon_lamp/blob/main/src/main.cpp) can be deployed through the 
 Arduino IDE as well.
+
+### Materials needed:
+
+- [Breadboard](https://amzn.to/3AyKgin)
+- [Jumper wires](https://amzn.to/4g2MUNO)
+- 1x [RGB LED strip SMD 5050](https://amzn.to/46YYxkN)
+- 3x [N-channel MOSFETs IRF 520](https://amzn.to/477i2Yf)
+- 1x [Voltage regulator 5v](https://amzn.to/4fUudff)
+- 1x [Capacitor 33uF 16v](https://amzn.to/3X5dNYy)
+- 1x [Arduino Nano](https://amzn.to/3yXt45Q)
+- 2x [Prototype boards 2x8cm/0.8x3.1inch](https://amzn.to/3T6htrZ)
+- 1x [Piezo speaker 35mm](https://amzn.to/3yV5Kpe)
+- 1x [Light-dependent resistor LDR](https://amzn.to/3XjrzIo])
+- 3x [1kOhm resistor](https://amzn.to/3AGs4U7)
+- 4x [10kOhm resistor](https://amzn.to/3XhuPnM)
+- 2x [1MOhm resistor](https://amzn.to/3AyIwFR)
+- 1x [12v Standard power supply US](https://amzn.to/3AOPjLD) / [12v Standard power supply EU](https://amzn.to/3yKPlDX)
+- 1x [12v Power jack](https://amzn.to/470Rdow)
+- [Wires 24 awg](https://amzn.to/4dWXhk9) or similar. I used wires from an ethernet cable.
+- [Aluminum foil](https://amzn.to/4g2qAUh)
+- [Hot glue](https://amzn.to/3YZJ4yI)
+- [Super glue](https://amzn.to/3MknOMu)
+- Wood batten for the stand 14x14mm/0.551x0.551 inches
+
+My 3D Printing Gear
+[Creality K1 MAX](https://amzn.to/3Z2aX9h)
+
+Filament that I used for this project:
+[Creality White PLA 1.75mm](https://amzn.to/4dFlsE3)
