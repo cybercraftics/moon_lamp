@@ -12,7 +12,7 @@ This is the homepage of the Moon Lamp project, as presented by myself in this [Y
 
 - Support is needed only for the core and the bottom part.
 #### Sphere
-- Add -7.4mm Z axis offest
+- Add -7.4mm Z axis offset
 - 100% infill
 - No support
 - Use raft
