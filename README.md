@@ -8,6 +8,15 @@ This is the homepage of the Moon Lamp project, as presented by myself in this [Y
 - [**3D Printable Materials**](https://github.com/cybercraftics/moon_lamp/tree/main/3d_printables)
 - [**Arduino Code**](https://github.com/cybercraftics/moon_lamp/blob/main/src/main.cpp)
 
+### Printing instructions:
+
+- Add -7.4mm Z axis offest
+- 100% infill
+- No support
+- Use raft
+
+<img width="1679" alt="Screenshot 2024-09-02 at 6 08 35 PM" src="https://github.com/user-attachments/assets/c95db757-2c8d-4f79-b224-52f1f14cfd97">
+
 ### Dependencies:
 - "CapacitiveSensor" Arduino library
 
