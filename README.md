@@ -48,7 +48,7 @@ Arduino IDE as well.
 - [Aluminum foil](https://amzn.to/4g2qAUh)
 - [Hot glue](https://amzn.to/3YZJ4yI)
 - [Super glue](https://amzn.to/3MknOMu)
-- Wood batten for the stand 14x14mm/0.551x0.551 inches
+- Wood batten for the stand 14x14mm/0.551x0.551 inches; 6 pieces x 60mm(2.36in)
 
 My 3D Printing Gear
 [Creality K1 MAX](https://amzn.to/3Z2aX9h)
